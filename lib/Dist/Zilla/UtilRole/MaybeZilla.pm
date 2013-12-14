@@ -22,25 +22,25 @@ has logger => ( isa => Object =>, is => ro =>, lazy_build => 1, handles => [qw( 
 
 
 sub logger_name_suffix {
-    my ( $self ) = @_;
-    my $class = blessed $self;
-    return unless $class;
-    $class =~ s/\ADist::Zilla::Util::/DZ:U::/msx;
-    return $class;
+  my ($self) = @_;
+  my $class = blessed $self;
+  return unless $class;
+  $class =~ s/\ADist::Zilla::Util::/DZ:U::/msx;
+  return $class;
 }
 
 sub _logger_prefix {
   my ($self) = @_;
   return unless blessed($self);
 
-  if ( not $self->has_plugin  ) {
-      return $self->logger_name_suffix;
+  if ( not $self->has_plugin ) {
+    return $self->logger_name_suffix;
   }
   if ( $self->plugin->can('_logger_prefix') ) {
-      return $self->plugin->_logger_prefix() . '/' . $self->logger_name_suffix();
+    return $self->plugin->_logger_prefix() . '/' . $self->logger_name_suffix();
   }
   if ( $self->plugin->can('plugin_name') ) {
-      return $self->plugin->plugin_name() . '/' . $self->logger_name_suffix();
+    return $self->plugin->plugin_name() . '/' . $self->logger_name_suffix();
   }
   return $self->logger_name_suffix();
 }
