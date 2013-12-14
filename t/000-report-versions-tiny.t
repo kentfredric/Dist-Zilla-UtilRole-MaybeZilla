@@ -48,10 +48,12 @@ sub pmver {
     return sprintf('%-45s => %-10s%-15s%s', $module, $pmver, $wanted, "\n");
 }
 
-eval { $v .= pmver('Log::Dispatchouli','any version') };
+eval { $v .= pmver('Capture::Tiny','any version') };
 eval { $v .= pmver('Module::Build','0.4203') };
 eval { $v .= pmver('Moose','any version') };
+eval { $v .= pmver('Moose::Role','any version') };
 eval { $v .= pmver('Scalar::Util','any version') };
+eval { $v .= pmver('Test::Fatal','any version') };
 eval { $v .= pmver('Test::More','1.001002') };
 eval { $v .= pmver('strict','any version') };
 eval { $v .= pmver('warnings','any version') };

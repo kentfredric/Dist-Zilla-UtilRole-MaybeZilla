@@ -23,8 +23,7 @@ my %module_build_args = (
   "recommends" => {},
   "recursive_test_files" => 1,
   "requires" => {
-    "Log::Dispatchouli" => 0,
-    "Moose" => 0,
+    "Moose::Role" => 0,
     "Scalar::Util" => 0,
     "perl" => "5.006",
     "strict" => 0,
@@ -32,13 +31,19 @@ my %module_build_args = (
   },
   "script_files" => [],
   "test_requires" => {
+    "Capture::Tiny" => 0,
+    "Moose" => 0,
+    "Test::Fatal" => 0,
     "Test::More" => "1.001002"
   }
 );
 
 
 my %fallback_build_requires = (
+  "Capture::Tiny" => 0,
   "Module::Build" => "0.4203",
+  "Moose" => 0,
+  "Test::Fatal" => 0,
   "Test::More" => "1.001002"
 );
 

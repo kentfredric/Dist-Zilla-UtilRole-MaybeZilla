@@ -12,63 +12,12 @@ BEGIN {
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
 
-use Moose;
+use Moose::Role;
 use Scalar::Util qw(blessed);
 
 
 has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_build => 1 );
 has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin => lazy_build => 1 );
-has logger => ( isa => Object =>, is => ro =>, lazy_build => 1, handles => [qw( log log_debug log_fatal )] );
-
-
-sub logger_name_suffix {
-  my ($self) = @_;
-  my $class = blessed $self;
-  return unless $class;
-  $class =~ s/\ADist::Zilla::Util::/DZ:U::/msx;
-  return $class;
-}
-
-sub _logger_prefix {
-  my ($self) = @_;
-  return unless blessed($self);
-
-  if ( not $self->has_plugin ) {
-    return $self->logger_name_suffix;
-  }
-  if ( $self->plugin->can('_logger_prefix') ) {
-    return $self->plugin->_logger_prefix() . '/' . $self->logger_name_suffix();
-  }
-  if ( $self->plugin->can('plugin_name') ) {
-    return $self->plugin->plugin_name() . '/' . $self->logger_name_suffix();
-  }
-  return $self->logger_name_suffix();
-}
-
-sub _build_logger {
-  my ($self) = @_;
-  if ( $self->has_plugin and $self->plugin->can('logger') ) {
-    return $self->plugin->logger->proxy(
-      {
-        proxy_prefix => '[' . $self->_logger_prefix . '] '
-      }
-    );
-  }
-  if ( $self->has_zilla ) {
-    return $self->zilla->chrome->logger->proxy(
-      {
-        proxy_prefix => '[' . $self->_logger_prefix . '] '
-      }
-    );
-  }
-  require Log::Dispatchouli;
-  return Log::Dispatchouli->new(
-    ident       => $self->_logger_prefix,
-    to_stdout   => 1,
-    log_pid     => 0,
-    quiet_fatal => 'stdout',
-  );
-}
 
 sub _build_zilla {
   my ($self) = @_;
@@ -83,8 +32,9 @@ sub _build_plugin {
   return $self->log_fatal('`plugin` needs to be specificed to ->new() for this method to work');
 }
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
+
+
+no Moose::Role;
 
 1;
 
@@ -143,31 +93,6 @@ Additionally, it provides a few compatibility methods to make life easier, namel
 Which will invoke the right places in C<dzil> if possible, but revert to a sensible
 default if not.
 
-=head1 METHODS
-
-=head2 C<logger_name_suffix>
-
-Because C<::Util> are intended to be created in multiples, as attributes on objects ( Well, at least the one this role is targeted at ),
-it seems natural that plugins will have child utilities, and child utilities will have thier own children.
-
-So the internal system C<dzil> uses for prefixing won't be enough to know where a log message is comming from,
-because C<dzil> only reports the plugin itself.
-
-So instead, we have a private method C<_logger_prefix>, that combines either of C<< $plugin->plugin_name >> or C<< $plugin->_logger_prefix >>
-with C<logger_name_suffix> so that each child will inherit its path from its parent.
-
-    Dist::Zilla::Plugin::Foo  -> [Foo]
-    →  attr thingy    = Object Dist::Zilla::Util::Thingy w/ plugin = Foo
-    →                   [Foo/Thingy]
-    → → attr bar      = Object Dist::Zilla::Util::Thingy w/ plugin = Foo/thingy
-    → →               = [Foo/Thingy/Thingy]
-
-Ok, pretty poor example. But you get the idea.
-
-C<logger_name_suffix> only controls the I<last> token on that list.
-
-The other tokens are based on C<plugin> ( And of course, only where possible ).
-
 =head1 ATTRIBUTES
 
 =head2 C<zilla>
@@ -178,13 +103,23 @@ A lazy attribute, populated from C<plugin> where possible, fatalizing if not.
 
 A lazy attribute that fatalizes if required and not specified.
 
-=head2 C<logger>
+=head1 FOOTNOTES
 
-Creates a Logger object, but the implementation details differ based on availability of C<zilla> and C<plugin>
+I had intended to have logging methods on this, but they proved too messy and problematic.
 
-B<Provides>:
+More, I discovered the way Dist::Zilla handles logs is kinda problematic too, because you may have noticed,
 
-    log, log_debug, log_fatal
+    $self->log_fatal()
+
+May just have a predisposition from reporting the failure context being
+
+    Moose/Method/Deferred.pm
+
+Most cases. ( ☹ )
+
+So I'm experimentally toying with using more L<< C<Log::Contextual>|Log::Contextual >>.
+
+See L<< C<[LogContextual]>|Dist::Zilla::Plugin::LogContextual >>
 
 =head1 AUTHOR
 
