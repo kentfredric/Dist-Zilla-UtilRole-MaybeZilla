@@ -20,6 +20,7 @@ has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_b
 has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin => lazy_build => 1 );
 has logger => ( isa => Object =>, is => ro =>, lazy_build => 1, handles => [qw( log log_debug log_fatal )] );
 
+
 sub logger_name_suffix {
     my ( $self ) = @_;
     my $class = blessed $self;
@@ -142,6 +143,31 @@ Additionally, it provides a few compatibility methods to make life easier, namel
 Which will invoke the right places in C<dzil> if possible, but revert to a sensible
 default if not.
 
+=head1 METHODS
+
+=head2 C<logger_name_suffix>
+
+Because C<::Util> are intended to be created in multiples, as attributes on objects ( Well, at least the one this role is targeted at ),
+it seems natural that plugins will have child utilities, and child utilities will have thier own children.
+
+So the internal system C<dzil> uses for prefixing won't be enough to know where a log message is comming from,
+because C<dzil> only reports the plugin itself.
+
+So instead, we have a private method C<_logger_prefix>, that combines either of C<< $plugin->plugin_name >> or C<< $plugin->_logger_prefix >>
+with C<logger_name_suffix> so that each child will inherit its path from its parent.
+
+    Dist::Zilla::Plugin::Foo  -> [Foo]
+    →  attr thingy    = Object Dist::Zilla::Util::Thingy w/ plugin = Foo
+    →                   [Foo/Thingy]
+    → → attr bar      = Object Dist::Zilla::Util::Thingy w/ plugin = Foo/thingy
+    → →               = [Foo/Thingy/Thingy]
+
+Ok, pretty poor example. But you get the idea.
+
+C<logger_name_suffix> only controls the I<last> token on that list.
+
+The other tokens are based on C<plugin> ( And of course, only where possible ).
+
 =head1 ATTRIBUTES
 
 =head2 C<zilla>
@@ -154,7 +180,11 @@ A lazy attribute that fatalizes if required and not specified.
 
 =head2 C<logger>
 
-Creates a Logger object by asking 
+Creates a Logger object, but the implementation details differ based on availability of C<zilla> and C<plugin>
+
+B<Provides>:
+
+    log, log_debug, log_fatal
 
 =head1 AUTHOR
 
