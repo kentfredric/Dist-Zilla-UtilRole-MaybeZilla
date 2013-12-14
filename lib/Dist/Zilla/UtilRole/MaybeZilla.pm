@@ -59,18 +59,18 @@ version 0.001000
 
 =head1 DESCRIPTION
 
-Dzil Is Great. But when you're writing a utility class,
-loading Dist::Zilla may be not necessary, and can make testing things harder.
+C<Dist::Zilla> Is Great. Long Live C<Dist::Zilla> But when you're writing a utility class,
+loading C<Dist::Zilla> may be not necessary, and can make testing things harder.
 
 Namely, because to test anything that B<requires> C<Dist::Zilla>, B<requires> that you
-have a valid build tree, which may be lots of unecessary work if you only need C<dzil> for
+have a valid build tree, which may be lots of unnecessary work if you only need C<dzil> for
 simple things like error logging.
 
 Or perhaps, you have other resources that you only conventionally fetch from C<dzil>,
-such as the C<dzil build-root>, for the sakes of making a C<Git::Wrapper>, but you're quite
+such as the C<dzil build-root>, for the sake of making a C<Git::Wrapper>, but you're quite
 happy with passing C<Git::Wrapper> instances directly for testing.
 
-And I found myself doing quite a lot of the latter, and re-writing the same code everwhere to do it.
+And I found myself doing quite a lot of the latter, and re-writing the same code everywhere to do it.
 
 So, this role provides a C<zilla> attribute that is B<ONLY> required if something directly calls C<< $self->zilla >>, and it fails on invocation.
 
@@ -102,11 +102,11 @@ default if not.
 
 =head2 C<zilla>
 
-A lazy attribute, populated from C<plugin> where possible, fatalizing if not.
+A lazy attribute, populated from C<plugin> where possible, C<die>ing if not.
 
 =head2 C<plugin>
 
-A lazy attribute that fatalizes if required and not specified.
+A lazy attribute that C<die>s if required and not specified.
 
 =head1 FOOTNOTES
 
