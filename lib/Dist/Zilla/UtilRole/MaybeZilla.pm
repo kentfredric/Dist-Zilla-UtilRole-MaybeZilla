@@ -20,12 +20,28 @@ has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_b
 has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin => lazy_build => 1 );
 has logger => ( isa => Object =>, is => ro =>, lazy_build => 1, handles => [qw( log log_debug log_fatal )] );
 
-sub logger_prefix {
+sub logger_name_suffix {
+    my ( $self ) = @_;
+    my $class = blessed $self;
+    return unless $class;
+    $class =~ s/\ADist::Zilla::Util::/DZ:U::/msx;
+    return $class;
+}
+
+sub _logger_prefix {
   my ($self) = @_;
-  my $class = blessed $self;
-  return unless $class;
-  $class =~ s/\ADist::Zilla::Util::/DZ:U::/msx;
-  return $class;
+  return unless blessed($self);
+
+  if ( not $self->has_plugin  ) {
+      return $self->logger_name_suffix;
+  }
+  if ( $self->plugin->can('_logger_prefix') ) {
+      return $self->plugin->_logger_prefix() . '/' . $self->logger_name_suffix();
+  }
+  if ( $self->plugin->can('plugin_name') ) {
+      return $self->plugin->plugin_name() . '/' . $self->logger_name_suffix();
+  }
+  return $self->logger_name_suffix();
 }
 
 sub _build_logger {
@@ -33,20 +49,20 @@ sub _build_logger {
   if ( $self->has_plugin and $self->plugin->can('logger') ) {
     return $self->plugin->logger->proxy(
       {
-        proxy_prefix => '[' . $self->logger_prefix . '] '
+        proxy_prefix => '[' . $self->_logger_prefix . '] '
       }
     );
   }
   if ( $self->has_zilla ) {
     return $self->zilla->chrome->logger->proxy(
       {
-        proxy_prefix => '[' . $self->logger_prefix . '] '
+        proxy_prefix => '[' . $self->_logger_prefix . '] '
       }
     );
   }
   require Log::Dispatchouli;
   return Log::Dispatchouli->new(
-    ident       => $self->logger_prefix,
+    ident       => $self->_logger_prefix,
     to_stdout   => 1,
     log_pid     => 0,
     quiet_fatal => 'stdout',
@@ -133,6 +149,12 @@ default if not.
 A lazy attribute, populated from C<plugin> where possible, fatalizing if not.
 
 =head2 C<plugin>
+
+A lazy attribute that fatalizes if required and not specified.
+
+=head2 C<logger>
+
+Creates a Logger object by asking 
 
 =head1 AUTHOR
 

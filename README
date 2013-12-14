@@ -56,6 +56,11 @@ ATTRIBUTES
     not.
 
   "plugin"
+    A lazy attribute that fatalizes if required and not specified.
+
+  "logger"
+    Creates a Logger object by asking
+
 AUTHOR
     Kent Fredric <kentfredric@gmail.com>
 

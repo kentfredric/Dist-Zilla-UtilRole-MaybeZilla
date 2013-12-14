@@ -103,6 +103,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/kentfredric/Dist-Zilla-UtilRole-MaybeZilla/issues"
+      },
+      "homepage" : "https://github.com/kentfredric/Dist-Zilla-UtilRole-MaybeZilla",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/kentfredric/Dist-Zilla-UtilRole-MaybeZilla.git",
+         "web" : "https://github.com/kentfredric/Dist-Zilla-UtilRole-MaybeZilla"
+      }
+   },
    "version" : "0.001000",
    "x_BuiltWith" : {
       "modules" : {
