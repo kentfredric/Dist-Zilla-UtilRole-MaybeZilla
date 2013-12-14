@@ -14,6 +14,8 @@ BEGIN {
 
 use Moose::Role;
 use Scalar::Util qw(blessed);
+use namespace::autoclean;
+use Log::Contextual::LogDispatchouli qw(log_fatal);
 
 
 has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_build => 1 );
@@ -24,14 +26,17 @@ sub _build_zilla {
   if ( $self->has_plugin and $self->plugin->can('zilla') ) {
     return $self->plugin->zilla;
   }
-  return $self->log_fatal('Neither `zilla` or `plugin` were specified, and one must be specified to ->new() for this method');
+  return log_fatal {
+    'Neither `zilla` or `plugin` were specified, and one must be specified to ->new() for this method';
+  };
 }
 
 sub _build_plugin {
   my ($self) = @_;
-  return $self->log_fatal('`plugin` needs to be specificed to ->new() for this method to work');
+  return log_fatal {
+    '`plugin` needs to be specificed to ->new() for this method to work';
+  };
 }
-
 
 
 no Moose::Role;

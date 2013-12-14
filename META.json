@@ -82,8 +82,10 @@
       },
       "runtime" : {
          "requires" : {
+            "Log::Contextual::LogDispatchouli" : "0",
             "Moose::Role" : "0",
             "Scalar::Util" : "0",
+            "namespace::autoclean" : "0",
             "perl" : "5.006",
             "strict" : "0",
             "warnings" : "0"
@@ -92,6 +94,7 @@
       "test" : {
          "requires" : {
             "Capture::Tiny" : "0",
+            "Log::Dispatchouli" : "0",
             "Moose" : "0",
             "Test::Fatal" : "0",
             "Test::More" : "1.001002"
@@ -163,6 +166,8 @@
          "Dist::Zilla::Plugin::UploadToCPAN" : "5.006",
          "Dist::Zilla::PluginBundle::Author::KENTNL" : "2.007000",
          "Dist::Zilla::PluginBundle::Author::KENTNL::Lite" : "1.7.2",
+         "Log::Contextual::LogDispatchouli" : "0.001000",
+         "Log::Dispatchouli" : "2.008",
          "Module::Build" : "0.4203",
          "Moose" : "2.1107",
          "Moose::Role" : "2.1107",
@@ -175,6 +180,7 @@
          "Test::More" : "1.001002",
          "Test::Pod" : "1.48",
          "Test::Pod::Coverage" : "1.08",
+         "namespace::autoclean" : "0.14",
          "strict" : "1.08",
          "version" : "0.9904",
          "warnings" : "1.20"

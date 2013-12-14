@@ -8,66 +8,202 @@ use Test::More;
 # CREATED: 12/14/13 17:07:05 by Kent Fredric (kentnl) <kentfredric@gmail.com>
 # ABSTRACT: Basic logger functionality test
 
-{
-    package Dist::Zilla::Util::Example;
-    use Moose;
-    with 'Dist::Zilla::UtilRole::MaybeZilla';
+use Log::Contextual::LogDispatchouli qw( set_logger );
+use Log::Dispatchouli;
 
-    __PACKAGE__->meta->make_immutable;
-    $INC{'Dist/Zilla/Util/Example.pm'} ||= 1;
+my $logger = Log::Dispatchouli->new(
+  {
+    ident => 'test'
+  }
+);
+set_logger $logger;
+
+{
+
+  package Dist::Zilla::Util::Example;
+  use Moose;
+  with 'Dist::Zilla::UtilRole::MaybeZilla';
+
+  __PACKAGE__->meta->make_immutable;
+  $INC{'Dist/Zilla/Util/Example.pm'} ||= 1;
 }
 
 use Test::Fatal qw( exception );
+use Capture::Tiny qw( capture );
+my ( $instance, $e, $stderr, $stdout );
 
-my $instance;
-my $e = exception {
-    $instance = Dist::Zilla::Util::Example->new();
-};
-is( $e, undef, 'Instantiation ok') or diag explain $e;
-my $logger;
-$e = exception {
-    $logger = $instance->logger;
-};
-is( $e, undef, 'Getting logger ok') or diag explain $e;
-
-use Capture::Tiny qw(capture);
-my ($stdout,$stderr);
-
-subtest 'log' => sub {
-    ($stdout,$stderr,$e) = capture {
-        exception {
-            $instance->log("This is a log line");
-        };
+subtest "instantiate no args" => sub {
+  ( $stdout, $stderr, $e ) = capture {
+    exception {
+      $instance = Dist::Zilla::Util::Example->new();
     };
+  };
+  is( $e, undef, 'Instantiation ok' ) or diag explain $e;
+  like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+  like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
 
-    is( $e, undef, 'Logging ok') or diag explain $e;
-    like($stdout, qr/This is a log line/, 'logged line is in stdout');
+  subtest '->has_zilla' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        ok( !$instance->has_zilla, 'has_zilla is false' );
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+  };
 
-    note explain { stdout => $stdout, stderr => $stderr };
+  subtest '->zilla' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        $instance->zilla;
+      };
+    };
+    isnt( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  };
+  subtest '->has_plugin' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        ok( !$instance->has_plugin, 'has_plugin is false' );
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+  };
+
+  subtest '->plugin' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        $instance->plugin;
+      };
+    };
+    isnt( $e, undef, '->plugin fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  };
 };
 
-subtest 'log_debug' => sub {
-    ($stdout,$stderr,$e) = capture  {
-        exception {
-            $instance->log_debug("This is a debug log line");
-        };
+subtest "instantiate w/zilla" => sub {
+  ( $stdout, $stderr, $e ) = capture {
+    exception {
+      $instance = Dist::Zilla::Util::Example->new( zilla => bless {}, 'Example' );
     };
+  };
+  is( $e, undef, 'Instantiation ok' ) or diag explain $e;
+  like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+  like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
 
-    is( $e, undef, 'log_debug ok') or diag explain $e;
-    note explain { stdout => $stdout, stderr => $stderr };
+  subtest '->has_zilla' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        ok( $instance->has_zilla, 'has_zilla is true' );
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+  };
 
+  subtest '->zilla' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        $instance->zilla;
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  };
+
+  subtest '->has_plugin' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        ok( !$instance->has_plugin, 'has_plugin is false' );
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+  };
+
+  subtest '->plugin' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        $instance->plugin;
+      };
+    };
+    isnt( $e, undef, '->plugin fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  };
 };
 
-subtest 'log_fatal' => sub {
-    ($stdout,$stderr,$e) = capture  {
-        exception {
-            $instance->log_fatal("This is a fatal log line");
-        };
+sub Example::zilla {
+  return $_[0]->{zilla};
+}
+
+subtest "instantiate w/plugin" => sub {
+  ( $stdout, $stderr, $e ) = capture {
+    exception {
+      $instance = Dist::Zilla::Util::Example->new( plugin => bless { zilla => bless {}, 'Example' }, 'Example' );
     };
-    isnt( $e, undef, 'log_fatal bails') and diag explain $e;
-    note explain { stdout => $stdout, stderr => $stderr };
+  };
+  is( $e, undef, 'Instantiation ok' ) or diag explain $e;
+  like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+  like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  subtest '->has_zilla' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        ok( !$instance->has_zilla, 'has_zilla is false' );
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+  };
+
+  subtest '->zilla' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        $instance->zilla;
+      };
+    };
+    is( $e, undef, '->zilla ok' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  };
+  subtest '->has_plugin' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        ok( $instance->has_plugin, 'has_plugin is true' );
+      };
+    };
+    is( $e, undef, '->zilla fails' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+  };
+
+  subtest '->plugin' => sub {
+    ( $stdout, $stderr, $e ) = capture {
+      exception {
+        $instance->plugin;
+      };
+    };
+    is( $e, undef, '->plugin ok' ) and note $e;
+    like( $stdout, qr/\A\s*\z/msx, 'Stdout empty' );
+    like( $stderr, qr/\A\s*\z/msx, 'Stderr empty' );
+
+  };
 };
 
 done_testing;
-
 
