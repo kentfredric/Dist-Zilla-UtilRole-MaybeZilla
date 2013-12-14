@@ -48,7 +48,7 @@ default if not.
 
 =cut
 
-use Moose;
+use Moose::Role;
 use Scalar::Util qw(blessed);
 
 =attr C<zilla>
@@ -63,16 +63,35 @@ A lazy attribute that fatalizes if required and not specified.
 
 Creates a Logger object, but the implementation details differ based on availability of C<zilla> and C<plugin>
 
-B<Provides>:
-
-    log, log_debug, log_fatal
-
 =cut
 
 has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_build => 1 );
 has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin => lazy_build => 1 );
-has logger => ( isa => Object =>, is => ro =>, lazy_build => 1, handles => [qw( log log_debug log_fatal )] );
 
+has logger => ( isa => Object =>, is => ro =>, lazy_build => 1 );
+
+sub log {
+    my ( $self , @args ) = @_;
+    my $logger = $self->logger;
+    local $Carp::CarpLevel = $Carp::CarpLevel;
+    $Carp::CarpLevel++;
+    return $logger->log(@args);
+}
+sub log_debug {
+    my ( $self , @args ) = @_;
+    my $logger = $self->logger;
+    local $Carp::CarpLevel = $Carp::CarpLevel;
+    $Carp::CarpLevel++;
+    return $logger->log_debug(@args);
+}
+
+sub log_fatal {
+    my ( $self , @args ) = @_;
+    my $logger = $self->logger;
+    local $Carp::CarpLevel = $Carp::CarpLevel;
+    $Carp::CarpLevel++;
+    return $logger->log_fatal(@args);
+}
 =method C<logger_name_suffix>
 
 Because C<::Util> are intended to be created in multiples, as attributes on objects ( Well, at least the one this role is targeted at ),
@@ -140,10 +159,13 @@ sub _build_logger {
   }
   require Log::Dispatchouli;
   return Log::Dispatchouli->new(
-    ident       => $self->_logger_prefix,
-    to_stdout   => 1,
-    log_pid     => 0,
-    quiet_fatal => 'stdout',
+    {
+      prefix      => '[' . $self->_logger_prefix  . '] ',
+      ident       => $self->_logger_prefix,
+      to_stdout   => 1,
+      log_pid     => 0,
+      quiet_fatal => 'stdout',
+    }
   );
 }
 
@@ -160,7 +182,6 @@ sub _build_plugin {
   return $self->log_fatal('`plugin` needs to be specificed to ->new() for this method to work');
 }
 
-__PACKAGE__->meta->make_immutable;
-no Moose;
+no Moose::Role;
 
 1;
