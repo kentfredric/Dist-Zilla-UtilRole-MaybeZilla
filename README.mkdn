@@ -47,31 +47,6 @@ Additionally, it provides a few compatibility methods to make life easier, namel
 Which will invoke the right places in `dzil` if possible, but revert to a sensible
 default if not.
 
-# METHODS
-
-## `logger_name_suffix`
-
-Because `::Util` are intended to be created in multiples, as attributes on objects ( Well, at least the one this role is targeted at ),
-it seems natural that plugins will have child utilities, and child utilities will have thier own children.
-
-So the internal system `dzil` uses for prefixing won't be enough to know where a log message is comming from,
-because `dzil` only reports the plugin itself.
-
-So instead, we have a private method `_logger_prefix`, that combines either of `$plugin->plugin_name` or `$plugin->_logger_prefix`
-with `logger_name_suffix` so that each child will inherit its path from its parent.
-
-    Dist::Zilla::Plugin::Foo  -> [Foo]
-    →  attr thingy    = Object Dist::Zilla::Util::Thingy w/ plugin = Foo
-    →                   [Foo/Thingy]
-    → → attr bar      = Object Dist::Zilla::Util::Thingy w/ plugin = Foo/thingy
-    → →               = [Foo/Thingy/Thingy]
-
-Ok, pretty poor example. But you get the idea.
-
-`logger_name_suffix` only controls the _last_ token on that list.
-
-The other tokens are based on `plugin` ( And of course, only where possible ).
-
 # ATTRIBUTES
 
 ## `zilla`
@@ -82,13 +57,23 @@ A lazy attribute, populated from `plugin` where possible, fatalizing if not.
 
 A lazy attribute that fatalizes if required and not specified.
 
-## `logger`
+# FOOTNOTES
 
-Creates a Logger object, but the implementation details differ based on availability of `zilla` and `plugin`
+I had intended to have logging methods on this, but they proved too messy and problematic.
 
-__Provides__:
+More, I discovered the way Dist::Zilla handles logs is kinda problematic too, because you may have noticed,
 
-    log, log_debug, log_fatal
+    $self->log_fatal()
+
+May just have a predisposition from reporting the failure context being
+
+    Moose/Method/Deferred.pm
+
+Most cases. ( ☹ )
+
+So I'm experimentally toying with using more [`Log::Contextual`](https://metacpan.org/pod/Log::Contextual).
+
+See [`[LogContextual]`](https://metacpan.org/pod/Dist::Zilla::Plugin::LogContextual)
 
 # AUTHOR
 
