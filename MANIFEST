@@ -9,6 +9,7 @@ LICENSE
 MANIFEST
 META.json
 META.yml
+README
 dist.ini
 dist.ini.meta
 lib/Dist/Zilla/UtilRole/MaybeZilla.pm
@@ -30,6 +31,7 @@ misc/Changes.deps
 misc/Changes.deps.all
 misc/Changes.deps.dev
 misc/Changes.deps.opt
+misc/built_with.json
 perlcritic.rc
 t/00-compile/lib_Dist_Zilla_UtilRole_MaybeZilla_pm.t
 t/00-report-prereqs.dd
@@ -37,10 +39,10 @@ t/00-report-prereqs.t
 t/basic-logger.t
 weaver.ini
 xt/author/critic.t
+xt/author/eol.t
 xt/author/pod-coverage.t
 xt/author/pod-syntax.t
 xt/release/cpan-changes.t
 xt/release/distmeta.t
-xt/release/eol.t
 xt/release/kwalitee.t
 xt/release/minimum-version.t
