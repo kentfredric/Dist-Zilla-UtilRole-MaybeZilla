@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Dist::Zilla::UtilRole::MaybeZilla;
-$Dist::Zilla::UtilRole::MaybeZilla::VERSION = '0.001001';
+
+our $VERSION = '0.002000';
+
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
@@ -121,7 +123,7 @@ Dist::Zilla::UtilRole::MaybeZilla - Soft-dependency on Dist::Zilla for Utilities
 
 =head1 VERSION
 
-version 0.001001
+version 0.002000
 
 =head1 DESCRIPTION
 
