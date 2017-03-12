@@ -1,5 +1,7 @@
 Release history for Dist-Zilla-UtilRole-MaybeZilla
 
+0.002001 2017-03-12T14:01:08Z 3ed6ad9
+
 0.002000 2017-03-12T13:51:12Z ee87409
  - Tooling updates fix -Ddefault_inc_excludes_dot test failures
  - Switch to ExtUtils::MakeMaker for installer (Major version bump reason)

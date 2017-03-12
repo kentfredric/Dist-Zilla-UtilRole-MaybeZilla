@@ -24,7 +24,7 @@ name: Dist-Zilla-UtilRole-MaybeZilla
 provides:
   Dist::Zilla::UtilRole::MaybeZilla:
     file: lib/Dist/Zilla/UtilRole/MaybeZilla.pm
-    version: '0.002000'
+    version: '0.002001'
 requires:
   Log::Contextual::LogDispatchouli: '0'
   Moose::Role: '0'
@@ -37,4 +37,4 @@ resources:
   bugtracker: https://github.com/kentnl/Dist-Zilla-UtilRole-MaybeZilla/issues
   homepage: https://github.com/kentnl/Dist-Zilla-UtilRole-MaybeZilla
   repository: https://github.com/kentnl/Dist-Zilla-UtilRole-MaybeZilla.git
-version: '0.002000'
+version: '0.002001'
