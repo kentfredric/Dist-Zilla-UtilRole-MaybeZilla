@@ -31,7 +31,8 @@ misc/Changes.deps.dev
 misc/Changes.deps.opt
 perlcritic.rc
 t/00-compile/lib_Dist_Zilla_UtilRole_MaybeZilla_pm.t
-t/000-report-versions-tiny.t
+t/00-report-prereqs.dd
+t/00-report-prereqs.t
 t/basic-logger.t
 weaver.ini
 xt/author/critic.t

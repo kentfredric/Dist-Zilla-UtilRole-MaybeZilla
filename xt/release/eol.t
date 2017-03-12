@@ -9,7 +9,8 @@ use Test::EOL;
 my @files = (
     'lib/Dist/Zilla/UtilRole/MaybeZilla.pm',
     't/00-compile/lib_Dist_Zilla_UtilRole_MaybeZilla_pm.t',
-    't/000-report-versions-tiny.t',
+    't/00-report-prereqs.dd',
+    't/00-report-prereqs.t',
     't/basic-logger.t'
 );
 

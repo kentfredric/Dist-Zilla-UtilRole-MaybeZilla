@@ -34,6 +34,8 @@ my %module_build_args = (
   },
   "test_requires" => {
     "Capture::Tiny" => 0,
+    "ExtUtils::MakeMaker" => 0,
+    "File::Spec" => 0,
     "Log::Dispatchouli" => 0,
     "Moose" => 0,
     "Test::Fatal" => 0,
@@ -45,6 +47,8 @@ my %module_build_args = (
 
 my %fallback_build_requires = (
   "Capture::Tiny" => 0,
+  "ExtUtils::MakeMaker" => 0,
+  "File::Spec" => 0,
   "Log::Dispatchouli" => 0,
   "Module::Build" => "0.4220",
   "Moose" => 0,
