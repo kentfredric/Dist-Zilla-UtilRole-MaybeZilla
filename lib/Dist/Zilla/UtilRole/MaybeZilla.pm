@@ -4,7 +4,7 @@ use warnings;
 
 package Dist::Zilla::UtilRole::MaybeZilla;
 
-our $VERSION = '0.002000';
+our $VERSION = '0.002001';
 
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
