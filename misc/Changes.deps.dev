@@ -10,11 +10,18 @@ This file contains changes to DEVELOPMENT dependencies only ( both REQUIRED and 
  - Test::MinimumVersion
  - Test::More 1.302073
 
+ [Added / develop suggests]
+ - Dist::Zilla::App::Command::bakeini 0.002006
+ - Dist::Zilla::PluginBundle::Author::KENTNL 2.025021
+
  [Changed / develop requires]
- - Dist::Zilla::PluginBundle::Author::KENTNL 2.007000 → 2.025021
  - Test::Kwalitee 1.12 → 1.21
 
  [Removed / develop requires]
  - Dist::Zilla::Plugin::NextRelease
  - Dist::Zilla::Plugin::ReportVersions::Tiny
+ - Dist::Zilla::PluginBundle::Author::KENTNL 2.007000
  - version 0.9901
+
+ [Removed / develop suggests]
+ - Dist::Zilla::PluginBundle::Author::KENTNL::Lite v1.3.0
