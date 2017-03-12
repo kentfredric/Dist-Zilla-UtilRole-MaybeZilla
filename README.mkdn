@@ -4,7 +4,7 @@ Dist::Zilla::UtilRole::MaybeZilla - Soft-dependency on Dist::Zilla for Utilities
 
 # VERSION
 
-version 0.002000
+version 0.002001
 
 # DESCRIPTION
 
