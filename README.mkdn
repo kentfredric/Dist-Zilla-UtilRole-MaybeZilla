@@ -77,7 +77,7 @@ See [`[LogContextual]`](https://metacpan.org/pod/Dist::Zilla::Plugin::LogContext
 
 # AUTHOR
 
-Kent Fredric <kentfredric@gmail.com>
+Kent Fredric <kentnl@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
