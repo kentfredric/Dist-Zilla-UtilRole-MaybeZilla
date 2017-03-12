@@ -2,13 +2,8 @@ use strict;
 use warnings;
 
 package Dist::Zilla::UtilRole::MaybeZilla;
-BEGIN {
-  $Dist::Zilla::UtilRole::MaybeZilla::AUTHORITY = 'cpan:KENTNL';
-}
-{
-  $Dist::Zilla::UtilRole::MaybeZilla::VERSION = '0.001000';
-}
-
+our $AUTHORITY = 'cpan:KENTNL';
+$Dist::Zilla::UtilRole::MaybeZilla::VERSION = '0.001001';
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
 
@@ -55,7 +50,7 @@ Dist::Zilla::UtilRole::MaybeZilla - Soft-dependency on Dist::Zilla for Utilities
 
 =head1 VERSION
 
-version 0.001000
+version 0.001001
 
 =head1 DESCRIPTION
 
@@ -132,7 +127,7 @@ Kent Fredric <kentfredric@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Kent Fredric <kentfredric@gmail.com>.
+This software is copyright (c) 2017 by Kent Fredric <kentfredric@gmail.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
