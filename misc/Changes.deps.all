@@ -5,6 +5,7 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
  - perl 5.006
 
  [Added / develop requires]
+ - Dist::Zilla::Plugin::Git::NextRelease
  - English
  - Test::EOL
  - Test::MinimumVersion
@@ -25,3 +26,6 @@ This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL depen
 
  [Changed / test requires]
  - Test::More 1.001002 → 1.302073
+
+ [Removed / develop requires]
+ - Dist::Zilla::Plugin::NextRelease
