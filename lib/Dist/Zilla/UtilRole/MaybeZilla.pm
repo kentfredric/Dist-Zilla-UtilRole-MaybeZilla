@@ -2,9 +2,10 @@ use strict;
 use warnings;
 
 package Dist::Zilla::UtilRole::MaybeZilla;
-our $AUTHORITY = 'cpan:KENTNL';
 $Dist::Zilla::UtilRole::MaybeZilla::VERSION = '0.001001';
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
+
+our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
 
 
