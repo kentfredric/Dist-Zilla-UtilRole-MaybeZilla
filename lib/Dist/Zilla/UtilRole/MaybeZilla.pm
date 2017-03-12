@@ -5,6 +5,8 @@ package Dist::Zilla::UtilRole::MaybeZilla;
 
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
+# AUTHORITY
+
 =head1 DESCRIPTION
 
 C<Dist::Zilla> Is Great. Long Live C<Dist::Zilla> But when you're writing a utility class,
