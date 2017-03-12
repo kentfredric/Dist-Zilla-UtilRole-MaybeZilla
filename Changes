@@ -1,6 +1,6 @@
 Release history for Dist-Zilla-UtilRole-MaybeZilla
 
-0.001001 2017-03-12T13:46:04Z
+0.001001 2017-03-12T13:46:26Z
  - Tooling updates fix -Ddefault_inc_excludes_dot test failures
 
  [Dependencies::Stats]
