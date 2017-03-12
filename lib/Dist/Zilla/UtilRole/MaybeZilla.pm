@@ -7,10 +7,61 @@ $Dist::Zilla::UtilRole::MaybeZilla::VERSION = '0.001001';
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 use Moose::Role;
 use Scalar::Util qw(blessed);
 use namespace::autoclean;
 use Log::Contextual::LogDispatchouli qw(log_fatal);
+
+
+
+
+
+
+
+
+
 
 
 has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_build => 1 );
@@ -32,6 +83,25 @@ sub _build_plugin {
     '`plugin` needs to be specificed to ->new() for this method to work';
   };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 no Moose::Role;
