@@ -1,0 +1,27 @@
+This file contains ALL changes in dependencies in both REQUIRED / OPTIONAL dependencies for all phases (configure/build/runtime/test/develop)
+
+0.001001
+ [Added / configure requires]
+ - perl 5.006
+
+ [Added / develop requires]
+ - English
+ - Test::EOL
+ - Test::MinimumVersion
+ - Test::More 1.302073
+
+ [Added / test requires]
+ - perl 5.006
+
+ [Changed / build requires]
+ - Module::Build 0.4203 → 0.4220
+
+ [Changed / configure requires]
+ - Module::Build 0.4203 → 0.4220
+
+ [Changed / develop requires]
+ - Dist::Zilla::PluginBundle::Author::KENTNL 2.007000 → 2.025021
+ - Test::Kwalitee 1.12 → 1.21
+
+ [Changed / test requires]
+ - Test::More 1.001002 → 1.302073
