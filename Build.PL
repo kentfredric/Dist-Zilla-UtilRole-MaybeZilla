@@ -16,7 +16,7 @@ my %module_build_args = (
   },
   "dist_abstract" => "Soft-dependency on Dist::Zilla for Utilities.",
   "dist_author" => [
-    "Kent Fredric <kentfredric\@gmail.com>"
+    "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "Dist-Zilla-UtilRole-MaybeZilla",
   "dist_version" => "0.001001",
