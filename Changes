@@ -1,13 +1,13 @@
 Release history for Dist-Zilla-UtilRole-MaybeZilla
 
-0.001001 2017-03-12T13:49:42Z ec65314
+0.001001 2017-03-12T13:49:59Z 4f9ed76
  - Tooling updates fix -Ddefault_inc_excludes_dot test failures
 
  [Dependencies::Stats]
  - Dependencies changed since 0.001000, see misc/*.deps* for details
  - build: ↑1
  - configure: +1 ↑1
- - develop: +16 ↑2 -6 (suggests: +2 -1)
+ - develop: +17 ↑2 -7 (suggests: +2 -1)
  - test: +3 ↑1 (recommends: +2)
 
 0.001000 2013-12-14T12:03:59Z
