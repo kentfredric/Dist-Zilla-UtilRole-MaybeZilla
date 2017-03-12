@@ -1,3 +1,4 @@
+use 5.006;    # our
 use strict;
 use warnings;
 
@@ -50,7 +51,7 @@ default if not.
 
 =cut
 
-use Moose::Role;
+use Moose::Role qw( has );
 use Scalar::Util qw(blessed);
 use namespace::autoclean;
 use Log::Contextual::LogDispatchouli qw(log_fatal);
@@ -65,8 +66,8 @@ A lazy attribute that C<die>s if required and not specified.
 
 =cut
 
-has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_build => 1 );
-has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin => lazy_build => 1 );
+has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  =>, lazy_build => 1 );
+has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin =>, lazy_build => 1 );
 
 sub _build_zilla {
   my ($self) = @_;
@@ -74,12 +75,11 @@ sub _build_zilla {
     return $self->plugin->zilla;
   }
   return log_fatal {
-    'Neither `zilla` or `plugin` were specified, and one must be specified to ->new() for this method';
+    'Neither `zilla` or `plugin` were specified,' . 'and one must be specified to ->new() for this method';
   };
 }
 
 sub _build_plugin {
-  my ($self) = @_;
   return log_fatal {
     '`plugin` needs to be specificed to ->new() for this method to work';
   };
