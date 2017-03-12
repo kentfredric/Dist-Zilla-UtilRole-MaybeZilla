@@ -1,25 +1,75 @@
+use 5.006;    # our
 use strict;
 use warnings;
 
 package Dist::Zilla::UtilRole::MaybeZilla;
-BEGIN {
-  $Dist::Zilla::UtilRole::MaybeZilla::AUTHORITY = 'cpan:KENTNL';
-}
-{
-  $Dist::Zilla::UtilRole::MaybeZilla::VERSION = '0.001000';
-}
+
+our $VERSION = '0.002000';
 
 # ABSTRACT: Soft-dependency on Dist::Zilla for Utilities.
 
+our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
-use Moose::Role;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use Moose::Role qw( has );
 use Scalar::Util qw(blessed);
 use namespace::autoclean;
 use Log::Contextual::LogDispatchouli qw(log_fatal);
 
 
-has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  => lazy_build => 1 );
-has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin => lazy_build => 1 );
+
+
+
+
+
+
+
+
+
+has zilla  => ( isa => Object =>, is => ro =>, predicate => has_zilla  =>, lazy_build => 1 );
+has plugin => ( isa => Object =>, is => ro =>, predicate => has_plugin =>, lazy_build => 1 );
 
 sub _build_zilla {
   my ($self) = @_;
@@ -27,16 +77,34 @@ sub _build_zilla {
     return $self->plugin->zilla;
   }
   return log_fatal {
-    'Neither `zilla` or `plugin` were specified, and one must be specified to ->new() for this method';
+    'Neither `zilla` or `plugin` were specified,' . 'and one must be specified to ->new() for this method';
   };
 }
 
 sub _build_plugin {
-  my ($self) = @_;
   return log_fatal {
     '`plugin` needs to be specificed to ->new() for this method to work';
   };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 no Moose::Role;
@@ -55,7 +123,7 @@ Dist::Zilla::UtilRole::MaybeZilla - Soft-dependency on Dist::Zilla for Utilities
 
 =head1 VERSION
 
-version 0.001000
+version 0.002000
 
 =head1 DESCRIPTION
 
@@ -128,11 +196,11 @@ See L<< C<[LogContextual]>|Dist::Zilla::Plugin::LogContextual >>
 
 =head1 AUTHOR
 
-Kent Fredric <kentfredric@gmail.com>
+Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Kent Fredric <kentfredric@gmail.com>.
+This software is copyright (c) 2017 by Kent Fredric <kentfredric@gmail.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
